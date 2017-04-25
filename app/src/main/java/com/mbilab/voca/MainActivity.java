@@ -3,6 +3,7 @@ package com.mbilab.voca;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -63,12 +64,21 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            view.loadUrl(URL);
+            view.loadUrl(request.getUrl().toString());
+            Log.d("shouldOverrideUrlLoad", request.getUrl().toString());
             return true;
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
+
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap icon) {
+            Log.d("onPageStarted", url);
+
+            //Log.d("onPageFinished", url);
             loadingCount++;
             if((isConnect() && loadingCount == LOADED_APP_PAGE) ||
                     (!isConnect() && loadingCount == LOADED_LOCAL_PAGE)) {
